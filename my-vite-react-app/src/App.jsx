@@ -1,35 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import {useState} from "react";
 
+function DrinkList({ drinks }) {
+  return (
+    <ul>
+      {drinks.map((drink) => (
+        <DrinkListItem key={drink} drink={drink} />
+      ))}
+    </ul>
+  );
+}
+
+function DrinkListItem({ drink }) {
+  return <li>{drink}<button onClick = {removeDrink(drink)} > DEL </button> </li>; //My Drink |button| 
+}
+let removeDrink = (drink) => {
+  drinkArray = drinkArray.filter((d)=>drink != d)
+}
 function App() {
-  const [count, setCount] = useState(0)
+  const drinkArray = ["Whiskey Sour", "Old Fashioned", "Vodka Martini", "Manhattan"];
+  // const favoriteArray = ["Moscow Mule"]
+  const [favoriteDrinks, setFavoriteDrinks] = useState(["Moscow Mule"])
+  //["Moscow Mule", "Manhattan"]
+  // const newDrink = "Old Fashioned"
+  
+  // console.log(drinkArray)
+  // console.log(drinkArray.pop())
 
+  let  addNewDrink = () => {
+    setFavoriteDrinks([...favoriteDrinks, drinkArray.pop()])
+    console.log(drinkArray)
+  }
+
+  let  removeLastDrink = () => {
+    setFavoriteDrinks([...favoriteDrinks.slice(0, -1)]) //returns []
+  }
+  
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h1>Drink List</h1>
+        <DrinkList drinks={drinkArray} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+       <div>
+        <h1>Favorite Drinks</h1>
+        <DrinkList drinks={favoriteDrinks} />
+        <button onClick={addNewDrink}>ADD</button>
+        <button onClick={removeLastDrink}>DELETE LAST DRINK</button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+
+export default App;
+
+
+//www.thecocktaildb.com/api/json/v1/1/random.php
+//https://react.dev/learn/updating-arrays-in-state
