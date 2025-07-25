@@ -1,46 +1,53 @@
 import "./App.css";
 import {useState} from "react";
 
-function DrinkList({ drinks }) {
+
+
+function DrinkList({ drinks, removeDrinkClickEvent }) {
   return (
     <ul>
       {drinks.map((drink) => (
-        <DrinkListItem key={drink} drink={drink} />
+        <DrinkListItem key={drink} drink={drink} removeDrinkClickEvent={removeDrinkClickEvent}/>
+        
       ))}
     </ul>
   );
 }
 
-function DrinkListItem({ drink }) {
-  return <li>{drink}<button onClick = {removeDrink(drink)} > DEL </button> </li>; //My Drink |button| 
+function DrinkListItem({ drink, removeDrinkClickEvent }) {
+  console.log("first", drink)
+  return <li>{drink}<button onClick = {(drink) => {removeDrinkClickEvent(drink)}}  > DEL </button> </li>; //My Drink |button| 
 }
-let removeDrink = (drink) => {
-  drinkArray = drinkArray.filter((d)=>drink != d)
-}
+
 function App() {
-  const drinkArray = ["Whiskey Sour", "Old Fashioned", "Vodka Martini", "Manhattan"];
-  // const favoriteArray = ["Moscow Mule"]
+  const [drinkArray, setDrinkArray] = useState(["Whiskey Sour", "Old Fashioned", "Vodka Martini", "Manhattan"])
   const [favoriteDrinks, setFavoriteDrinks] = useState(["Moscow Mule"])
+  // const favoriteArray = ["Moscow Mule"]
   //["Moscow Mule", "Manhattan"]
   // const newDrink = "Old Fashioned"
   
   // console.log(drinkArray)
   // console.log(drinkArray.pop())
 
-  let  addNewDrink = () => {
+  let addNewDrink = () => {
     setFavoriteDrinks([...favoriteDrinks, drinkArray.pop()])
-    console.log(drinkArray)
+    // console.log(drinkArray)
   }
 
-  let  removeLastDrink = () => {
+  let removeLastDrink = () => {
     setFavoriteDrinks([...favoriteDrinks.slice(0, -1)]) //returns []
   }
+
+  let removeDrink = (drink) => {
+    setDrinkArray(drinkArray.filter((d)=>drink != d))
+    console.log("second", drink)
+}
   
   return (
     <>
       <div>
         <h1>Drink List</h1>
-        <DrinkList drinks={drinkArray} />
+        <DrinkList id="DrinkList" drinks={drinkArray} removeDrinkClickEvent = {removeDrink} />
       </div>
        <div>
         <h1>Favorite Drinks</h1>
